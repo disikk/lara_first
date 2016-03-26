@@ -124,7 +124,7 @@ return [
     */
 
     'attributes'           => [
-        'task-name' => 'Задача',
+        'task_name' => 'Задача',
     ],
 
 ];

@@ -37,7 +37,11 @@ Route::group(['middleware' => ['web']], function () {
      * Show Task Dashboard
      */
     Route::get('/', function () {
-        return view('tasks');
+        $tasks = Task::orderBy('created_at')->get();
+
+        return view('tasks', [
+            'tasks' => $tasks,
+        ]);
     });
 
     /**
@@ -45,20 +49,24 @@ Route::group(['middleware' => ['web']], function () {
      */
     Route::post('/task', function (Request $request) {
         $validator = Validator::make($request->all(), [
-            'task-name' => 'required|max:255',
+            'task_name' => 'required|max:10',
         ]);
         if($validator->fails()) {
             return redirect('/')
-                ->withInput()
+//                ->withInput()
                 ->withErrors($validator);
         }
-        return '';
+        $task = new Task;
+        $task->name = $request->task_name;
+        $task->save();
+        return redirect('/');
     });
 
     /**
      * Delete Task
      */
     Route::delete('/task/{task}', function (Task $task) {
-        //
+        $task->delete();
+        return redirect('/');
     });
 });
