@@ -53,7 +53,7 @@ Route::group(['middleware' => ['web']], function () {
         ]);
         if($validator->fails()) {
             return redirect('/')
-//                ->withInput()
+                ->withInput()
                 ->withErrors($validator);
         }
         $task = new Task;
